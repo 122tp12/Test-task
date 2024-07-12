@@ -1,4 +1,6 @@
 
+using Test_task.Models;
+
 namespace Test_task
 {
     public class Program
@@ -13,6 +15,8 @@ namespace Test_task
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext <ApplicationDbContext>();
 
             var app = builder.Build();
 
