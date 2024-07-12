@@ -2,6 +2,7 @@
 using Test_task.Models;
 using Test_task.Service.DbServices;
 using Test_task.Service.UserService;
+using Test_task.Service.UserServices;
 
 namespace Test_task
 {
@@ -21,8 +22,10 @@ namespace Test_task
             builder.Services.AddDbContext <ApplicationDbContext>();
 
             builder.Services.AddScoped<IUserDbService, UserDbService>();
+            builder.Services.AddScoped<IChatDbService, ChatDbService>();
 
             builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IChatService, ChatService>();
 
             var app = builder.Build();
 

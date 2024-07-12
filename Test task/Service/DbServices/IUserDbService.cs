@@ -5,6 +5,7 @@ namespace Test_task.Service.DbServices
     public interface IUserDbService
     {
         public Task<IEnumerable<User>> GetUsers();
+        public Task<User> GetUser(int id);
         public Task<int> UpdateUser(User user);
         public Task<int> AddUser(User user);
         public Task<int> DeleteUser(int id);

@@ -38,5 +38,10 @@ namespace Test_task.Service.DbServices
         {
             return await _dbContext.Users.AnyAsync(n=>n.Id==id);
         }
+
+        public async Task<User> GetUser(int id)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(n => n.Id == id);
+        }
     }
 }

@@ -13,5 +13,26 @@ namespace Test_task.Models
         {
             optionsBuilder.UseSqlite("Data Source=test.db");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Chat>()
+                .HasOne(u => u.Creator)
+                .WithMany(c => c.MyChats)
+                .HasForeignKey(u => u.CreatorId);
+
+            modelBuilder.Entity<Chat>()
+                .HasMany(u => u.Users)
+                .WithMany(c => c.Chats);
+
+            modelBuilder.Entity<Chat>()
+                .HasMany(u => u.Messages)
+                .WithOne(c => c.Chat)
+                .HasForeignKey(u => u.ChatId);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.User)
+                .WithMany(c => c.Messages)
+                .HasForeignKey(u => u.UserId);
+        }
     }
 }

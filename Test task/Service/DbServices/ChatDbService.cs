@@ -1,0 +1,58 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Test_task.Models;
+
+namespace Test_task.Service.DbServices
+{
+    public class ChatDbService : IChatDbService
+    {
+        private readonly ApplicationDbContext _dbContext;
+        public ChatDbService(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<Chat>> GetAllChats()
+        {
+            return await _dbContext.Chats.ToArrayAsync();
+        }
+
+        public async Task<bool> IsChatExist(int id)
+        {
+            return await _dbContext.Chats.AnyAsync(n => n.Id == id);
+        }
+
+        async public Task<int> RemoveUserFromChat(int id, User user)
+        {
+            Chat tmp = await _dbContext.Chats.FirstOrDefaultAsync(n => n.Id == id);
+            tmp.Users.Remove(user);
+            _dbContext.Chats.Update(tmp);
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        async Task<int> IChatDbService.AddUserToChat(int id, User user)
+        {
+            Chat tmp=await _dbContext.Chats.FirstOrDefaultAsync(n=>n.Id==id);
+            tmp.Users.Add(user);
+            _dbContext.Chats.Update(tmp);
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        async Task<int> IChatDbService.CreateChat(User user)
+        {
+            List<User> tmp=new List<User>(new User[] { user });
+            await _dbContext.Chats.AddAsync(new Chat() { Creator = user, Users = tmp });
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        async Task<int> IChatDbService.DeleteChat(int id)
+        {
+            _dbContext.Chats.Remove(await _dbContext.Chats.FirstAsync(n => n.Id == id));
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        async Task<Chat> IChatDbService.GetChat(int id)
+        {
+            return await _dbContext.Chats.FirstOrDefaultAsync(n=>n.Id==id);
+        }
+    }
+}

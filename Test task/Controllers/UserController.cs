@@ -14,13 +14,10 @@ namespace Test_task.Controllers
     //this is crud controller
     public class UserController : ControllerBase
     {
-
-        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
         }
 
@@ -35,7 +32,7 @@ namespace Test_task.Controllers
             return Ok();
         }
 
-        [HttpPost("updateUser")]
+        [HttpPatch("updateUser")]
         public IActionResult UpdateUser(int id, string name)
         {
             string result = _userService.UpdateUser(new User() { Id=id, Name = name });
@@ -46,7 +43,7 @@ namespace Test_task.Controllers
             return Ok();
         }
 
-        [HttpPost("deleteUser")]
+        [HttpDelete("deleteUser")]
         public IActionResult DeleteUser(int id)
         {
             _userService.DeleteUser(id);
