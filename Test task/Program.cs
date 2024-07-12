@@ -1,5 +1,7 @@
 
 using Test_task.Models;
+using Test_task.Service.DbServices;
+using Test_task.Service.UserService;
 
 namespace Test_task
 {
@@ -17,6 +19,10 @@ namespace Test_task
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext <ApplicationDbContext>();
+
+            builder.Services.AddScoped<IUserDbService, UserDbService>();
+
+            builder.Services.AddTransient<IUserService, UserService>();
 
             var app = builder.Build();
 
