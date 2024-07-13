@@ -11,5 +11,6 @@ namespace Test_task.Service.DbServices
         public Task<int> AddUserToChat(int id, User user);
         public Task<int> RemoveUserFromChat(int id, User user);
         public Task<bool> IsChatExist(int id);
+        public Task<int> AddMessage(int userId, int chatID, string message);
     }
 }

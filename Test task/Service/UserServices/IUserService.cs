@@ -8,5 +8,7 @@ namespace Test_task.Service.UserService
         public int AddUser(User user);
         public string UpdateUser(User user);
         public void DeleteUser(int id);
+        public string AutoriseConection(int id, string con);
+        public string RemoveConection(int id); 
     }
 }

@@ -33,5 +33,31 @@ namespace Test_task.Service.UserService
         {
             _dbService.DeleteUser(id);
         }
+
+        public string AutoriseConection(int id, string con)
+        {
+            User u=_dbService.GetUser(id).Result;
+            if (u == null)
+            {
+                User newer = new User() {UserId=con };
+                _dbService.AddUser(newer);
+                return "User not found, creatint new user. New id is: "+newer.Id;
+            }
+            u.UserId= con;
+            _dbService.UpdateUser(u);
+            return "Autorised";
+        }
+
+        public string RemoveConection(int id)
+        {
+            User u = _dbService.GetUser(id).Result;
+            if (u == null)
+            {
+                return "User not found";
+            }
+            u.UserId = null;
+            _dbService.UpdateUser(u);
+            return "Removed";
+        }
     }
 }

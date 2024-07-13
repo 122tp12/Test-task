@@ -11,6 +11,12 @@ namespace Test_task.Service.DbServices
             _dbContext = dbContext;
         }
 
+        public async Task<int> AddMessage(int userId, int chatId, string message)
+        {
+            await _dbContext.Messages.AddAsync(new Message() { UserId = userId, ChatId = chatId, Content = message });
+            return await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Chat>> GetAllChats()
         {
             return await _dbContext.Chats.ToArrayAsync();
