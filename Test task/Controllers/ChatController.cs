@@ -17,12 +17,6 @@ namespace Test_task.Controllers
         {
             _chatService = chatService;
         }
-        [HttpPost("sendMessage")]
-        public async void SendMessage(IHubContext<ComHub, IComHub> context)
-        {
-            await context.Clients.All.RecieveMessage("message");
-            Console.WriteLine("send");
-        }
 
         [HttpGet("getAll")]
         public IEnumerable<Chat> GetAllUser()
@@ -34,21 +28,27 @@ namespace Test_task.Controllers
         public IActionResult CreateChat(int userId)
         {
             string result = _chatService.CreateChat(userId);
-            if (result != "ok")
-            {
-                return BadRequest(result);
-            }
             return Ok();
         }
 
-        [HttpPost("AddUserToChat")]
+        [HttpPost("deleteChat")]
+        public IActionResult DeleteChat(int userId,int chatId)
+        {
+            string result = _chatService.DeleteChat(userId, chatId);
+            return Ok();
+        }
+
+        [HttpPost("addUserToChat")]
         public IActionResult AddUserToChat(int userId, int chatId)
         {
             string result = _chatService.AddUserToChat(userId, chatId);
-            if (result != "ok")
-            {
-                return BadRequest(result);
-            }
+            return Ok();
+        }
+
+        [HttpPost("removeUserFromChat")]
+        public IActionResult RemoveUserFromChat(int userId, int chatId)
+        {
+            string result = _chatService.RemoveUserFromChat(userId, chatId);
             return Ok();
         }
     }

@@ -31,10 +31,6 @@ namespace Test_task.Controllers
         public IActionResult UpdateUser(int id, string userId)
         {
             string result = _userService.UpdateUser(new User() { Id=id, UserId = userId });
-            if (result != "ok")
-            {
-                return BadRequest(result);
-            }
             return Ok();
         }
 
