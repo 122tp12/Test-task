@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 namespace Test_task.Models
 {
@@ -7,8 +8,8 @@ namespace Test_task.Models
         [Key]
         public int Id { get; set; }
         public string? UserId { get; set; }
-        public List<Chat> Chats { get; set; } = new();
-        public List<Chat> MyChats { get; set; } = new();
-        public List<Message> Messages { get; set; } = new();
+        public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
+        public virtual ICollection<Chat> MyChats { get; set; } = new List<Chat>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }

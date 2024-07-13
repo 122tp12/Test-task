@@ -37,12 +37,23 @@ namespace Test_task.Service.UserServices
             _chatDbService.AddUserToChat(chatId, user);
             return "Added";
         }
+        public string RemoveUserFromChat(int userId, int chatId)
+        {
+            var user = _userDbService.GetUser(userId).Result;
+            if (user == null)
+                return "User not found";
+            if (!_chatDbService.IsChatExist(chatId).Result)
+                return "Chat not found";
+
+            _chatDbService.RemoveUserFromChat(chatId, user);
+            return "Added";
+        }
         public string DeleteChat(int userId, int chatId)
         {
             var user = _userDbService.GetUser(userId).Result;
             if (user == null)
                 return "User not found";
-            if (!user.MyChats.Exists(n=>n.Id==chatId))
+            if (!user.MyChats.ToList().Exists(n=>n.Id==chatId))
                 return "User is not creator";
             if (!_chatDbService.IsChatExist(chatId).Result)
                 return "Chat not found";

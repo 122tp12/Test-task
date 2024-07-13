@@ -24,9 +24,9 @@ namespace Test_task.Models
                 .HasMany(u => u.Users)
                 .WithMany(c => c.Chats);
 
-            modelBuilder.Entity<Chat>()
-                .HasMany(u => u.Messages)
-                .WithOne(c => c.Chat)
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Chat)
+                .WithMany(c => c.Messages)
                 .HasForeignKey(u => u.ChatId);
 
             modelBuilder.Entity<Message>()

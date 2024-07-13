@@ -40,15 +40,21 @@ namespace Test_task.SignalR
             for (int i=0;i<cons.Count ;i++ ) {
                 if (cons[i] != null)
                 {
-                    await Clients.User(cons[i]).RecieveMessage($"From chat{chatId}, from user{senderId}: {message}");
+                    await Clients.Client(cons[i]).RecieveMessage($"From chat \'{chatId}\', from user \'{senderId}\': {message}");
                 }
             }
         }
 
-        //{"arguments":["Hello", "user id"],"invocationId":"0","target":"SendMessage","type":1}
+        //{"arguments":["Hello", "user id"],"invocationId":"0","target":"SendDirectMessage","type":1}
         public async Task SendDirectMessage(string message, string user)
         {
             await Clients.User(user).RecieveMessage($"{Context.ConnectionId}: {message}");
+        }
+
+        //{"arguments":["Hello"],"invocationId":"0","target":"SendTestMessage","type":1}
+        public async Task SendTestMessage(string message)
+        {
+            await Clients.All.RecieveMessage($"{Context.ConnectionId}: {message}");
         }
 
         //{"arguments":[user id],"invocationId":"0","target":"CreateGroup","type":1}
@@ -61,6 +67,12 @@ namespace Test_task.SignalR
         public async Task<string> AddUserToGroup(int userId, int groupId)
         {
             return _service.AddUserToChat(userId, groupId);
+        }
+
+        //{"arguments":[user id, group id],"invocationId":"0","target":"RemoveUserFromGroup","type":1}
+        public async Task<string> RemoveUserFromGroup(int userId, int groupId)
+        {
+            return _service.RemoveUserFromChat(userId, groupId);
         }
 
         //{"arguments":[user id, group id],"invocationId":"0","target":"DeleteGroup","type":1}

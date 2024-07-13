@@ -29,7 +29,7 @@ namespace Test_task.Service.DbServices
 
         async public Task<int> RemoveUserFromChat(int id, User user)
         {
-            Chat tmp = await _dbContext.Chats.FirstOrDefaultAsync(n => n.Id == id);
+            Chat tmp = await _dbContext.Chats.Include(u => u.Users).FirstOrDefaultAsync(n => n.Id == id);
             tmp.Users.Remove(user);
             _dbContext.Chats.Update(tmp);
             return await _dbContext.SaveChangesAsync();
@@ -37,7 +37,7 @@ namespace Test_task.Service.DbServices
 
         async Task<int> IChatDbService.AddUserToChat(int id, User user)
         {
-            Chat tmp=await _dbContext.Chats.FirstOrDefaultAsync(n=>n.Id==id);
+            Chat tmp=await _dbContext.Chats.Include(u => u.Users).FirstOrDefaultAsync(n=>n.Id==id);
             tmp.Users.Add(user);
             _dbContext.Chats.Update(tmp);
             return await _dbContext.SaveChangesAsync();
@@ -60,7 +60,7 @@ namespace Test_task.Service.DbServices
 
         async Task<Chat> IChatDbService.GetChat(int id)
         {
-            return await _dbContext.Chats.FirstOrDefaultAsync(n=>n.Id==id);
+            return await _dbContext.Chats.Include(u=>u.Users).Include(u => u.Messages).FirstOrDefaultAsync(n=>n.Id==id);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Test_task.Service.DbServices
 
         async Task<IEnumerable<User>> IUserDbService.GetUsers()
         {
-            return await _dbContext.Users.ToArrayAsync();
+            return await _dbContext.Users.Include(u => u.MyChats).Include(u=>u.Chats).ToArrayAsync();
         }
 
         public async Task<bool> IsUserExist(int id)
@@ -42,7 +42,7 @@ namespace Test_task.Service.DbServices
 
         public async Task<User> GetUser(int id)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(n => n.Id == id);
+            return await _dbContext.Users.Include(u => u.MyChats).Include(u => u.Chats).FirstOrDefaultAsync(n => n.Id == id);
         }
     }
 }

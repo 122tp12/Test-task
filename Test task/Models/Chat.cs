@@ -11,7 +11,7 @@ namespace Test_task.Models
         [ForeignKey("CreatorId")]
         public User? Creator { get; set; }
 
-        public List<User> Users { get; set; } = new();
-        public List<Message> Messages { get; set; } = new();
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }
