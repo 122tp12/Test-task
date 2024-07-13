@@ -40,8 +40,10 @@ namespace Test_task.Service.DbServices
         async Task<int> IChatDbService.CreateChat(User user)
         {
             List<User> tmp=new List<User>(new User[] { user });
-            await _dbContext.Chats.AddAsync(new Chat() { Creator = user, Users = tmp });
-            return await _dbContext.SaveChangesAsync();
+            Chat chat = new Chat() { Creator = user, Users = tmp };
+            await _dbContext.Chats.AddAsync(chat);
+            await _dbContext.SaveChangesAsync();
+            return chat.Id;
         }
 
         async Task<int> IChatDbService.DeleteChat(int id)

@@ -18,22 +18,13 @@ namespace Test_task.Service.UserService
             return _dbService.GetUsers().Result;
         }
 
-        public string AddUser(User user)
+        public int AddUser(User user)
         {
-            if (user.Name.Length > 20 || user.Name.Length < 2)
-                return "Wrong name";
-            
-            _dbService.AddUser(user);
-            return "ok";
+            return _dbService.AddUser(user).Result;
         }
 
         public string UpdateUser(User user)
         {
-            if (user.Name.Length > 20 || user.Name.Length < 2)
-                return "Wrong name";
-            if (!_dbService.IsUserExist(user.Id).Result)
-                return "User not found";
-
             _dbService.UpdateUser(user);
             return "ok";
         }

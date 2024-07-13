@@ -1,8 +1,10 @@
 
+using Microsoft.AspNetCore.SignalR;
 using Test_task.Models;
 using Test_task.Service.DbServices;
 using Test_task.Service.UserService;
 using Test_task.Service.UserServices;
+using Test_task.SignalR;
 
 namespace Test_task
 {
@@ -12,10 +14,7 @@ namespace Test_task
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -26,6 +25,8 @@ namespace Test_task
 
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IChatService, ChatService>();
+
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -40,8 +41,10 @@ namespace Test_task
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            app.MapHub<ComHub>("com-hub");
+
 
             app.Run();
         }

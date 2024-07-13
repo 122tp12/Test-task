@@ -13,7 +13,8 @@ namespace Test_task.Service.DbServices
         async Task<int> IUserDbService.AddUser(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            return await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
+            return user.Id;
         }
 
         async Task<int> IUserDbService.DeleteUser(int id)

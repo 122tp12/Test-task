@@ -19,8 +19,7 @@ namespace Test_task.Service.UserServices
             var user=_userDbService.GetUser(userId).Result;
             if (user == null)
                 return "User not found";
-            _chatDbService.CreateChat(user);
-            return "ok";
+            return _chatDbService.CreateChat(user).Result.ToString();
         }
         public IEnumerable<Chat> GetAllChats()
         {

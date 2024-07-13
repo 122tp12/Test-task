@@ -22,20 +22,15 @@ namespace Test_task.Controllers
         }
 
         [HttpPost("addUser")]
-        public IActionResult AddUser(string name)
+        public int AddUser(string userId)
         {
-            string result = _userService.AddUser(new User() { Name = name });
-            if (result != "ok")
-            {
-                return BadRequest(result);
-            }
-            return Ok();
+            return _userService.AddUser(new User() { UserId = userId });
         }
 
         [HttpPatch("updateUser")]
-        public IActionResult UpdateUser(int id, string name)
+        public IActionResult UpdateUser(int id, string userId)
         {
-            string result = _userService.UpdateUser(new User() { Id=id, Name = name });
+            string result = _userService.UpdateUser(new User() { Id=id, UserId = userId });
             if (result != "ok")
             {
                 return BadRequest(result);

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Test_task.Models;
 using Test_task.Service.UserService;
 using Test_task.Service.UserServices;
+using Test_task.SignalR;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Test_task.Controllers
 {
@@ -10,10 +13,15 @@ namespace Test_task.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;
-
         public ChatController(IChatService chatService)
         {
             _chatService = chatService;
+        }
+        [HttpPost("sendMessage")]
+        public async void SendMessage(IHubContext<ComHub, IComHub> context)
+        {
+            await context.Clients.All.RecieveMessage("message");
+            Console.WriteLine("send");
         }
 
         [HttpGet("getAll")]
