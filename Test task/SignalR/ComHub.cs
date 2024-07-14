@@ -69,6 +69,12 @@ namespace Test_task.SignalR
             return _service.AddUserToChat(userId, groupId);
         }
 
+        //{"arguments":[user id, group id],"invocationId":"0","target":"LoadMessagesFromChat","type":1}
+        public async Task<List<string>> LoadMessagesFromChat(int userId, int groupId)
+        {
+            return _service.GetAllMassages(userId, groupId);
+        }
+
         //{"arguments":[user id, group id],"invocationId":"0","target":"RemoveUserFromGroup","type":1}
         public async Task<string> RemoveUserFromGroup(int userId, int groupId)
         {

@@ -16,6 +16,10 @@ namespace Test_task.Service.DbServices
             await _dbContext.Messages.AddAsync(new Message() { UserId = userId, ChatId = chatId, Content = message });
             return await _dbContext.SaveChangesAsync();
         }
+        public async Task<IEnumerable<Message>> GetAllMessages(int chatId)
+        {
+            return _dbContext.Messages.Where(n=>n.ChatId==chatId).ToList();
+        }
 
         public async Task<IEnumerable<Chat>> GetAllChats()
         {
