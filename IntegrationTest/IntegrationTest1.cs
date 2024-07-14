@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Net.Http.Json;
 using Test_task;
 using Test_task.Models;
 
@@ -28,7 +24,5 @@ namespace IntegrationTest
             var list=response.Content.ReadAsAsync<IEnumerable<User>>().Result;
             Assert.True((list.Count()>0));
         }
-
     }
-
 }

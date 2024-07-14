@@ -54,7 +54,7 @@ namespace Test_task.SignalR
         //{"arguments":["Hello"],"invocationId":"0","target":"SendTestMessage","type":1}
         public async Task SendTestMessage(string message)
         {
-            await Clients.All.RecieveMessage($"{Context.ConnectionId}: {message}");
+            await Clients.All.RecieveMessage($"{message}");
         }
 
         //{"arguments":[user id],"invocationId":"0","target":"CreateGroup","type":1}
