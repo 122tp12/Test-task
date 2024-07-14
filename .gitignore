@@ -366,3 +366,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Test task/test.db
+/Test task/test.db-wal
+/Test task/test.db-shm
