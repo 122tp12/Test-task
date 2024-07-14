@@ -27,29 +27,27 @@ namespace Test_task.Controllers
         [HttpPost("createChat")]
         public IActionResult CreateChat(int userId)
         {
-            string result = _chatService.CreateChat(userId);
-            return Ok();
+            return Ok(_chatService.CreateChat(userId));
         }
 
         [HttpPost("deleteChat")]
         public IActionResult DeleteChat(int userId,int chatId)
         {
             string result = _chatService.DeleteChat(userId, chatId);
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPost("addUserToChat")]
         public IActionResult AddUserToChat(int userId, int chatId)
         {
-            string result = _chatService.AddUserToChat(userId, chatId);
-            return Ok();
+            return Ok(_chatService.AddUserToChat(userId, chatId));
         }
 
         [HttpPost("removeUserFromChat")]
         public IActionResult RemoveUserFromChat(int userId, int chatId)
         {
             string result = _chatService.RemoveUserFromChat(userId, chatId);
-            return Ok();
+            return Ok(result);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Test_task.Controllers
         public IActionResult UpdateUser(int id, string userId)
         {
             string result = _userService.UpdateUser(new User() { Id=id, UserId = userId });
-            return Ok();
+            return Ok(result);
         }
 
         [HttpDelete("deleteUser")]

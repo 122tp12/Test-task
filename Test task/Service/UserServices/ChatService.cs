@@ -16,9 +16,10 @@ namespace Test_task.Service.UserServices
 
         public string CreateChat(int userId)
         {
-            var user=_userDbService.GetUser(userId).Result;
-            if (user == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return "User not found";
+
+            var user = _userDbService.GetUser(userId).Result;
             return "Group Id: "+_chatDbService.CreateChat(user).Result.ToString();
         }
 
@@ -29,34 +30,35 @@ namespace Test_task.Service.UserServices
 
         public string AddUserToChat(int userId, int chatId)
         {
-            var user = _userDbService.GetUser(userId).Result;
-            if (user == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return "User not found";
             if (!_chatDbService.IsChatExist(chatId).Result)
                 return "Chat not found";
-            //TODO: if user alredy in group
 
+            var user = _userDbService.GetUser(userId).Result;
             _chatDbService.AddUserToChat(chatId, user);
             return "Added";
         }
 
         public string RemoveUserFromChat(int userId, int chatId)
         {
-            var user = _userDbService.GetUser(userId).Result;
-            if (user == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return "User not found";
             if (!_chatDbService.IsChatExist(chatId).Result)
                 return "Chat not found";
 
+            var user = _userDbService.GetUser(userId).Result;
             _chatDbService.RemoveUserFromChat(chatId, user);
             return "Added";
         }
 
         public string DeleteChat(int userId, int chatId)
         {
-            var user = _userDbService.GetUser(userId).Result;
-            if (user == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return "User not found";
+
+            var user = _userDbService.GetUser(userId).Result;
+
             if (!user.MyChats.ToList().Exists(n=>n.Id==chatId))
                 return "User is not creator";
             if (!_chatDbService.IsChatExist(chatId).Result)
@@ -66,8 +68,15 @@ namespace Test_task.Service.UserServices
             return "deleted";
         }
 
-        public List<string> GetUsersConnectionByChatId(int chatId)
+        public List<string> GetUsersConnectionByChatId(int chatId, int userId)
         {
+            if (!_chatDbService.IsChatExist(chatId).Result)
+                throw new Exception("Chat not found");
+            if (!_userDbService.IsUserExist(userId).Result)
+                throw new Exception("User not found");
+            if (!_chatDbService.GetChat(chatId).Result.Users.Contains(_userDbService.GetUser(userId).Result))
+                throw new Exception("User not in the chat");
+
             Chat chatToSearch=_chatDbService.GetChat(chatId).Result;
             if (chatToSearch == null)
                 return null;
@@ -76,7 +85,7 @@ namespace Test_task.Service.UserServices
 
         public string saveMessages(int userId, int chatId, string message)
         { 
-            if (_userDbService.GetUser(userId).Result == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return "User not found";
             if (!_chatDbService.IsChatExist(chatId).Result)
                 return "Chat not found";
@@ -87,11 +96,11 @@ namespace Test_task.Service.UserServices
 
         public List<string> GetAllMassages(int userId, int chatId)
         {
-            User u = _userDbService.GetUser(userId).Result;
-            if (u == null)
+            if (!_userDbService.IsUserExist(userId).Result)
                 return new List<string>(["User not found"]);
             if (!_chatDbService.IsChatExist(chatId).Result)
                 return new List<string>(["Chat not found"]);
+            User u = _userDbService.GetUser(userId).Result;
             if (!_chatDbService.GetChat(chatId).Result.Users.Contains(u))
                 return new List<string>(["User not in the chat"]);
 

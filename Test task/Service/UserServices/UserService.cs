@@ -25,6 +25,10 @@ namespace Test_task.Service.UserService
 
         public string UpdateUser(User user)
         {
+            if (!_dbService.IsUserExist(user.Id).Result)
+            {
+                return "User not found";
+            }
             _dbService.UpdateUser(user);
             return "ok";
         }
@@ -36,13 +40,13 @@ namespace Test_task.Service.UserService
 
         public string AutoriseConection(int id, string con)
         {
-            User u=_dbService.GetUser(id).Result;
-            if (u == null)
+            if (!_dbService.IsUserExist(id).Result)
             {
                 User newer = new User() {UserId=con };
                 _dbService.AddUser(newer);
-                return "User not found, creatint new user. New id is: "+newer.Id;
+                return "User not found, creating new user. New id is: "+newer.Id;
             }
+            User u = _dbService.GetUser(id).Result;
             u.UserId= con;
             _dbService.UpdateUser(u);
             return "Autorised";
@@ -50,11 +54,11 @@ namespace Test_task.Service.UserService
 
         public string RemoveConection(int id)
         {
-            User u = _dbService.GetUser(id).Result;
-            if (u == null)
+            if (!_dbService.IsUserExist(id).Result)
             {
                 return "User not found";
             }
+            User u = _dbService.GetUser(id).Result;
             u.UserId = null;
             _dbService.UpdateUser(u);
             return "Removed";

@@ -33,9 +33,18 @@ namespace Test_task.SignalR
         }
 
         //{"arguments":["Hello", sender_id, chat_id],"invocationId":"0","target":"SendMessageToChat","type":1}
-        public async Task SendMessageToChat(string message, int senderId, int chatId)
+        public async Task<string> SendMessageToChat(string message, int senderId, int chatId)
         {
-            List<string> cons=_service.GetUsersConnectionByChatId(chatId);
+            List<string> cons;
+            try
+            {
+                cons = _service.GetUsersConnectionByChatId(chatId, senderId);
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+
             _service.saveMessages(senderId, chatId, message);
             for (int i=0;i<cons.Count ;i++ ) {
                 if (cons[i] != null)
@@ -43,6 +52,7 @@ namespace Test_task.SignalR
                     await Clients.Client(cons[i]).RecieveMessage($"From chat \'{chatId}\', from user \'{senderId}\': {message}");
                 }
             }
+            return "sended";
         }
 
         //{"arguments":["Hello", "user id"],"invocationId":"0","target":"SendDirectMessage","type":1}
