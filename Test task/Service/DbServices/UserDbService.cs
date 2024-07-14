@@ -32,7 +32,7 @@ namespace Test_task.Service.DbServices
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _dbContext.Users.Include(u => u.MyChats).Include(u=>u.Chats).ToArrayAsync();
+            return await _dbContext.Users.ToArrayAsync();
         }
 
         public async Task<bool> IsUserExist(int id)

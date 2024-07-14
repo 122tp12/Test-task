@@ -18,7 +18,7 @@ namespace Test_task.SignalR
         //{"protocol":"json","version":1}
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.RecieveMessage($"New Member ({Context.ConnectionId}): Joined");
+            
         }
 
         //{"arguments":[id],"invocationId":"0","target":"AutoriseConectionAsUser","type":1}
