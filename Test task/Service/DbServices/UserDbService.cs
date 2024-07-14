@@ -10,27 +10,27 @@ namespace Test_task.Service.DbServices
         public UserDbService(ApplicationDbContext dbContext) {
             _dbContext= dbContext;
         }
-        async Task<int> IUserDbService.AddUser(User user)
+        public async Task<int> AddUser(User user)
         {
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
             return user.Id;
         }
 
-        async Task<int> IUserDbService.DeleteUser(int id)
+        public async Task<int> DeleteUser(int id)
         {
             _dbContext.Users.Remove(await _dbContext.Users.FirstAsync(n=>n.Id==id));
             return await _dbContext.SaveChangesAsync();
         }
 
-        async Task<int> IUserDbService.UpdateUser(User user)
+        public async Task<int> UpdateUser(User user)
         {
 
             _dbContext.Users.Update(user);
             return await _dbContext.SaveChangesAsync();
         }
 
-        async Task<IEnumerable<User>> IUserDbService.GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
             return await _dbContext.Users.Include(u => u.MyChats).Include(u=>u.Chats).ToArrayAsync();
         }
